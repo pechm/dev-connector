@@ -1,0 +1,3 @@
+{
+  "mongoURL": "mongodb+srv://dev-connector-app:6Q9DgFXTiCe2YdSu@cluster0-bfpza.mongodb.net/test?retryWrites=true&w=majority"
+}
