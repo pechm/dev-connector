@@ -6,6 +6,11 @@ const app = express();
 // connect to database
 connectDB();
 
+// init middeware
+app.use(express.json({
+  extended: false
+}));
+
 app.get('/', (req, res) => res.send('API Running'));
 
 // Define Routes
