@@ -1,16 +1,21 @@
-const express = require('express');
+import express from 'express';
+import expressValidator from 'express-validator/check';
+
 const router = express.Router();
 
-const auth = require('../../middleware/auth');
+import auth from '../../middleware/auth';
 
-const Post = require('../../models/Post');
-const Profile = require('../../models/Profile');
-const User = require('../../models/User');
+import {
+  Post
+} from '../../models/Post';
+import {
+  User
+} from '../../models/User';
 
 const {
   check,
   validationResult
-} = require('express-validator/check');
+} = expressValidator;
 
 // @route  POST api/posts
 // @desc   Create post
@@ -259,4 +264,6 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
   }
 });
 
-module.exports = router;
+export {
+  router
+};

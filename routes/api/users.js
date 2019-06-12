@@ -1,15 +1,19 @@
-const express = require('express');
-const gravatar = require('gravatar');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const config = require('config');
+import express from 'express';
+import gravatar from 'gravatar';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import expressValidator from 'express-validator/check';
+
 const router = express.Router();
+
+import {
+  User
+} from '../../models/User';
+
 const {
   check,
   validationResult
-} = require('express-validator/check');
-
-const User = require('../../models/User');
+} = expressValidator;
 
 // @route  POST api/users
 // @desc   Register user
@@ -79,7 +83,7 @@ router.post(
 
       jwt.sign(
         payload,
-        config.get('jwtSecret'), {
+        process.env.JWT_SECRET, {
           expiresIn: 360000
         },
         (err, token) => {
@@ -94,4 +98,6 @@ router.post(
     }
   });
 
-module.exports = router;
+export {
+  router
+};

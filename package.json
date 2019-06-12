@@ -4,16 +4,22 @@
   "description": "Social network for developers",
   "main": "server.js",
   "scripts": {
-    "start": "node server",
+    "start": "node -r dotenv/config start.js",
     "server": "nodemon server"
   },
   "author": "Peter Chmeruk",
   "license": "MIT",
   "dependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/register": "^7.4.4",
+    "babel-polyfill": "^6.26.0",
     "bcryptjs": "^2.4.3",
     "config": "^3.1.0",
+    "dotenv": "^8.0.0",
     "express": "^4.17.1",
     "express-validator": "^5.3.1",
+    "fetch": "^1.1.0",
     "gravatar": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.5.13",

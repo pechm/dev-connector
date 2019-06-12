@@ -1,16 +1,22 @@
-const express = require('express');
-const request = require('request');
-const config = require('config');
-const router = express.Router();
-const auth = require('../../middleware/auth');
+import express from 'express';
+import request from 'request';
+import expressValidator from 'express-validator/check';
 
-const Profile = require('../../models/Profile');
-const User = require('../../models/User');
+const router = express.Router();
+
+import auth from '../../middleware/auth';
+
+import {
+  Profile
+} from '../../models/Profile';
+import {
+  User
+} from '../../models/User';
 
 const {
   check,
   validationResult
-} = require('express-validator/check');
+} = expressValidator;
 
 // @route  GET api/profile/me
 // @desc   Get current users profile
@@ -26,7 +32,7 @@ router.get('/me', auth, async (req, res) => {
         msg: 'There is no profile for this user'
       });
     }
-
+    res.json(profile);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -105,7 +111,6 @@ router.post('/', [auth,
     profile = new Profile(profileFields);
     await profile.save();
     res.json(profile);
-
   } catch (err) {
     console.log(err.message);
     res.status(500).send('Server Error');
@@ -340,8 +345,8 @@ router.get('/github/:username', async (req, res) => {
   try {
     const options = {
       uri: `https://api.github.com/users/${req.params.username}/repos?per_page=5&
-        sort=created:asc&client_id=${config.get('githubClientId')}&
-        client_secret=${config.get('githubSecret')}`,
+        sort=created:asc&client_id=${process.env.GITHUB_CLIENT_ID}&
+        client_secret=${process.env.GITHUB_SECRET}`,
       method: 'GET',
       headers: {
         'user-agent': 'node.js'
@@ -363,6 +368,8 @@ router.get('/github/:username', async (req, res) => {
     console.error(err.message);
     res.status(500).send('Server Error');
   }
-});
+})
 
-module.exports = router;
+export {
+  router
+}
