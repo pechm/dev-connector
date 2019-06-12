@@ -1,16 +1,20 @@
-const express = require('express');
-const jwt = require('jsonwebtoken');
-const config = require('config');
-const bcrypt = require('bcryptjs');
-const router = express.Router();
-const auth = require('../../middleware/auth');
+import express from 'express';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+import expressValidator from 'express-validator/check';
 
-const User = require('../../models/User');
+const router = express.Router();
+
+import auth from '../../middleware/auth';
+
+import {
+  User
+} from '../../models/User';
 
 const {
   check,
   validationResult
-} = require('express-validator/check');
+} = expressValidator;
 
 // @route  GET api/auth
 // @desc   Test route
@@ -79,7 +83,7 @@ router.post(
 
       jwt.sign(
         payload,
-        config.get('jwtSecret'), {
+        process.env.JWT_SECRET, {
           expiresIn: 360000
         },
         (err, token) => {
@@ -94,4 +98,6 @@ router.post(
     }
   });
 
-module.exports = router;
+export {
+  router
+};

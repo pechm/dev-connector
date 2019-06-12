@@ -1,21 +1,12 @@
-const mongoose = require('mongoose');
-const config = require('config');
-const db = config.get('mongoURL');
+import mongoose from 'mongoose'
+import 'babel-polyfill'
 
 const connectDB = async () => {
-  try {
-    await mongoose.connect(db, {
-      useNewUrlParser: true,
-      useCreateIndex: true,
-      useFindAndModify: false
-    });
-
-    console.log('MongoDB Connected ...');
-  } catch (err) {
-    console.error();
-    // exit process
-    process.exit(1);
-  }
+  return await mongoose.connect(process.env.DATABASE_URL, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false
+  })
 }
 
-module.exports = connectDB;
+export default connectDB
