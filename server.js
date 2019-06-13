@@ -1,6 +1,18 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import connectDB from './config/db'
+import {
+  usersRouter
+} from './routes/api/users';
+import {
+  authRouter
+} from './routes/api/auth';
+import {
+  profileRouter
+} from './routes/api/profile';
+import {
+  postsRouter
+} from './routes/api/posts';
 
 const app = express()
 
@@ -27,19 +39,6 @@ app.use(express.json({
 app.get('/', (req, res) => res.send('API Running'))
 
 // Define Routes
-import {
-  router as usersRouter
-} from './routes/api/users';
-import {
-  router as authRouter
-} from './routes/api/auth';
-import {
-  router as profileRouter
-} from './routes/api/profile';
-import {
-  router as postsRouter
-} from './routes/api/posts';
-
 app.use('/api/users', usersRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/profile', profileRouter)

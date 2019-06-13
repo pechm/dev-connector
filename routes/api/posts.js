@@ -1,16 +1,10 @@
 import express from 'express';
 import expressValidator from 'express-validator/check';
-
-const router = express.Router();
-
 import auth from '../../middleware/auth';
+import Post from '../../models/Post';
+import User from '../../models/User';
 
-import {
-  Post
-} from '../../models/Post';
-import {
-  User
-} from '../../models/User';
+const postsRouter = express.Router();
 
 const {
   check,
@@ -20,7 +14,7 @@ const {
 // @route  POST api/posts
 // @desc   Create post
 // @access Private
-router.post(
+postsRouter.post(
   '/',
   [
     auth,
@@ -58,7 +52,7 @@ router.post(
 // @route  GET api/posts
 // @desc   Get all posts
 // @access Private
-router.get('/', auth, async (req, res) => {
+postsRouter.get('/', auth, async (req, res) => {
   try {
     const posts = await Post.find().sort({
       date: -1
@@ -74,7 +68,7 @@ router.get('/', auth, async (req, res) => {
 // @route  GET api/posts/:id
 // @desc   Get post by ID
 // @access Private
-router.get('/:id', auth, async (req, res) => {
+postsRouter.get('/:id', auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     if (!post) {
@@ -98,7 +92,7 @@ router.get('/:id', auth, async (req, res) => {
 // @route  DELETE api/posts
 // @desc   Delete post
 // @access Pirvate
-router.delete('/:id', auth, async (req, res) => {
+postsRouter.delete('/:id', auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     if (!post) {
@@ -121,7 +115,7 @@ router.delete('/:id', auth, async (req, res) => {
 // @route  PUT api/posts/like/:id
 // @desc   Like a post
 // @access Pirvate
-router.put('/like/:id', auth, async (req, res) => {
+postsRouter.put('/like/:id', auth, async (req, res) => {
 
   try {
     const post = await Post.findById(req.params.id);
@@ -150,7 +144,7 @@ router.put('/like/:id', auth, async (req, res) => {
 // @route  PUT api/posts/unlike/:id
 // @desc   Unlike a post
 // @access Pirvate
-router.put('/unlike/:id', auth, async (req, res) => {
+postsRouter.put('/unlike/:id', auth, async (req, res) => {
 
   try {
     const post = await Post.findById(req.params.id);
@@ -182,7 +176,7 @@ router.put('/unlike/:id', auth, async (req, res) => {
 // @route  POST api/posts/comment
 // @desc   Create post comment
 // @access Private
-router.post(
+postsRouter.post(
   '/comment/:id',
   [
     auth,
@@ -223,7 +217,7 @@ router.post(
 // @route  DELETE api/posts/comment/:id/:comment_id
 // @desc   Delete post comment
 // @access Pirvate
-router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
+postsRouter.delete('/comment/:id/:comment_id', auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
 
@@ -265,5 +259,5 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
 });
 
 export {
-  router
-};
+  postsRouter
+}

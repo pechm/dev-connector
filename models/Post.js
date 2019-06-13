@@ -1,6 +1,8 @@
 import mongoose from 'mongoose'
 
-const Schema = mongoose.Schema
+const {
+  Schema
+} = mongoose
 
 const PostSchema = new Schema({
   user: {
@@ -49,4 +51,4 @@ const PostSchema = new Schema({
   }
 })
 
-export const Post = mongoose.model('post', PostSchema)
+export default mongoose.model('post', PostSchema);

@@ -1,17 +1,11 @@
 import express from 'express';
 import fetch from 'node-fetch';
 import expressValidator from 'express-validator/check';
-
-const router = express.Router();
-
 import auth from '../../middleware/auth';
+import Profile from '../../models/Profile';
+import User from '../../models/User';
 
-import {
-  Profile
-} from '../../models/Profile';
-import {
-  User
-} from '../../models/User';
+const profileRouter = express.Router();
 
 const {
   check,
@@ -21,7 +15,7 @@ const {
 // @route  GET api/profile/me
 // @desc   Get current users profile
 // @access Private
-router.get('/me', auth, async (req, res) => {
+profileRouter.get('/me', auth, async (req, res) => {
   try {
     const profile = await Profile.findOne({
       user: req.user.id
@@ -42,7 +36,7 @@ router.get('/me', auth, async (req, res) => {
 // @route  POST api/profile
 // @desc   Creae or update user profile
 // @access Private
-router.post('/', [auth,
+profileRouter.post('/', [auth,
   [
     check('status', 'Status is required').not().isEmpty(),
     check('skills', 'Skills is required').not().isEmpty(),
@@ -120,7 +114,7 @@ router.post('/', [auth,
 // @route  GET api/profile
 // @desc   Get all users profile
 // @access Public
-router.get('/', async (req, res) => {
+profileRouter.get('/', async (req, res) => {
   try {
     const profiles = await Profile.find().populate('user', ['name', 'avatar']);
 
@@ -134,7 +128,7 @@ router.get('/', async (req, res) => {
 // @route  GET api/profile/user/:user_id
 // @desc   Get profile by user ID
 // @access Public
-router.get('/user/:user_id', async (req, res) => {
+profileRouter.get('/user/:user_id', async (req, res) => {
   try {
     const profile = await Profile.findOne({
       user: req.params.user_id
@@ -160,7 +154,7 @@ router.get('/user/:user_id', async (req, res) => {
 // @route  DELETE api/profile
 // @desc   Delete user profile
 // @access Pirvate
-router.delete('/', auth, async (req, res) => {
+profileRouter.delete('/', auth, async (req, res) => {
   try {
     // @todo - remove user posts
 
@@ -186,7 +180,7 @@ router.delete('/', auth, async (req, res) => {
 // @route  PUT api/profile/experience
 // @desc   Add user profile experience
 // @access Pirvate
-router.put('/experience', [auth,
+profileRouter.put('/experience', [auth,
   check('title', 'Title is required').not().isEmpty(),
   check('company', 'Company is required').not().isEmpty(),
   check('from', 'Date from is required').not().isEmpty()
@@ -238,7 +232,7 @@ router.put('/experience', [auth,
 // @route  DELETE api/profile/experience/:exp_id
 // @desc   Delete user profile experience
 // @access Pirvate
-router.delete('/experience/:exp_id', auth, async (req, res) => {
+profileRouter.delete('/experience/:exp_id', auth, async (req, res) => {
   try {
     // remove user profile
     const profile = await Profile.findOne({
@@ -263,7 +257,7 @@ router.delete('/experience/:exp_id', auth, async (req, res) => {
 // @route  PUT api/profile/education
 // @desc   Add user profile education
 // @access Pirvate
-router.put('/education', [auth,
+profileRouter.put('/education', [auth,
   check('school', 'School is required').not().isEmpty(),
   check('degree', 'Degree is required').not().isEmpty(),
   check('fieldofstudy', 'Field of study is required').not().isEmpty(),
@@ -316,7 +310,7 @@ router.put('/education', [auth,
 // @route  DELETE api/profile/education/:edu_id
 // @desc   Delete user profile education
 // @access Pirvate
-router.delete('/education/:edu_id', auth, async (req, res) => {
+profileRouter.delete('/education/:edu_id', auth, async (req, res) => {
   try {
     // remove user profile
     const profile = await Profile.findOne({
@@ -341,7 +335,7 @@ router.delete('/education/:edu_id', auth, async (req, res) => {
 // @route  GET api/profile/github/:username
 // @desc   Get user repos from Github
 // @access Public
-router.get('/github/:username', async (req, res) => {
+profileRouter.get('/github/:username', async (req, res) => {
   try {
     const gitUrl = `https://api.github.com/users/${req.params.username}/repos?per_page=5&
     sort=created:asc&client_id=${process.env.GITHUB_CLIENT_ID}&
@@ -360,5 +354,5 @@ router.get('/github/:username', async (req, res) => {
 })
 
 export {
-  router
+  profileRouter
 }
