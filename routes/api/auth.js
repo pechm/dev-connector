@@ -2,14 +2,10 @@ import express from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import expressValidator from 'express-validator/check';
-
-const router = express.Router();
-
 import auth from '../../middleware/auth';
+import User from '../../models/User';
 
-import {
-  User
-} from '../../models/User';
+const authRouter = express.Router();
 
 const {
   check,
@@ -19,7 +15,7 @@ const {
 // @route  GET api/auth
 // @desc   Test route
 // @access Public
-router.get('/', auth, async (req, res) => {
+authRouter.get('/', auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password');
     res.json(user);
@@ -33,7 +29,7 @@ router.get('/', auth, async (req, res) => {
 // @route  POST api/auth
 // @desc   Authenticate user & get token
 // @access Public
-router.post(
+authRouter.post(
   '/',
   [
     check('email', 'Please include a valid email').isEmail(),
@@ -99,5 +95,5 @@ router.post(
   });
 
 export {
-  router
-};
+  authRouter
+}

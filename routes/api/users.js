@@ -3,12 +3,9 @@ import gravatar from 'gravatar';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import expressValidator from 'express-validator/check';
+import User from '../../models/User';
 
-const router = express.Router();
-
-import {
-  User
-} from '../../models/User';
+const usersRouter = express.Router();
 
 const {
   check,
@@ -18,7 +15,7 @@ const {
 // @route  POST api/users
 // @desc   Register user
 // @access Public
-router.post(
+usersRouter.post(
   '/',
   [
     check('name', 'Name is required').not().isEmpty(),
@@ -99,5 +96,5 @@ router.post(
   });
 
 export {
-  router
-};
+  usersRouter
+}
